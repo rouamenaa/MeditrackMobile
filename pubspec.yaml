@@ -30,6 +30,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  sqflite: ^2.3.3        # SQLite
+  path: ^1.9.0           # chemin du fichier de la base
+  crypto: ^3.0.3         # hachage du mot de passe
+  shared_preferences: ^2.2.3  # session
+  provider: ^6.1.2       # gestion d'état
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

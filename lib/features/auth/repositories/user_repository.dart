@@ -39,6 +39,8 @@ class UserRepository {
       telephone: telephone,
       dateNaissance: dateNaissance,
       sexe: sexe,
+      dateCreation: DateTime.now().toIso8601String(),   // <- nouvelle ligne
+
     );
     try {
       final id = await db.insert('users', user.toMap()..remove('id'),

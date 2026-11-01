@@ -96,8 +96,8 @@ class _TreatmentHistoryScreenState extends State<TreatmentHistoryScreen> {
         title: const Text('Arrêter ce traitement ?'),
         content: Text(
             '« ${t.medicationName} » passera en statut "Arrêté".\n'
-            'Les prises à venir restent consultables dans l\'historique '
-            'mais ne sont plus générées.'),
+            'Les prises déjà passées restent dans l\'historique ; '
+            'les prises à venir sont annulées.'),
         actions: [
           TextButton(
               onPressed: () => Navigator.pop(c, false),

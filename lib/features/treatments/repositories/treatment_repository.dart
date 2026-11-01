@@ -14,7 +14,6 @@
 /// ============================================================
 library;
 
-import 'package:flutter/foundation.dart';
 import 'package:meditrackmobile/database/database_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -346,9 +345,6 @@ class TreatmentRepository {
     final db = await _db;
     final now = _now();
     final limit = now.add(Duration(hours: hours));
-    
-    // Debug info
-    debugPrint('[DB] upcomingDoses request: userId=$userId, now=${now.toIso8601String()}, limit=${limit.toIso8601String()}');
 
     final rows = await db.rawQuery('''
       SELECT l.*, t.medication_name, t.medication_dosage, t.dose
@@ -367,8 +363,7 @@ class TreatmentRepository {
       now.toIso8601String(),
       limit.toIso8601String(),
     ]);
-    
-    debugPrint('[DB] upcomingDoses result: ${rows.length} rows');
+
     return rows
         .map((r) => UpcomingDose(
               log: IntakeLog.fromMap(r),
@@ -401,9 +396,7 @@ class TreatmentRepository {
     final end = t.endDate ?? start.add(const Duration(days: 60));
     final last = _dayStart(end);
     final today = _dayStart(now);
-    
-    debugPrint('[DB] _generateLogs for ${t.medicationName}: start=${start.toIso8601String()}, end=${end.toIso8601String()}, now=${now.toIso8601String()}');
-    
+
     var cursor = start.isBefore(today) ? today : start;
     if (cursor.isAfter(last)) return;
     // garde-fou : ne jamais générer plus de 180 jours
@@ -418,19 +411,12 @@ class TreatmentRepository {
         if (hm == null) continue;
         final scheduled = DateTime(
             cursor.year, cursor.month, cursor.day, hm.$1, hm.$2);
-        
-        // Log de chaque créneau testé
-        debugPrint('[DB] test créneau: ${scheduled.toIso8601String()}');
-        
-        if (scheduled.isBefore(now)) {
-          debugPrint('[DB] ignoré car passé');
-          continue;
-        }
+
+        if (scheduled.isBefore(now)) continue;
         final log = IntakeLog(
           treatmentId: t.id!,
           scheduledAt: scheduled,
         );
-        debugPrint('[DB] génère log pour ${t.medicationName} à ${scheduled.toIso8601String()}');
         await db.insert('intake_logs', log.toMap()..remove('id'));
         count++;
       }

@@ -47,6 +47,7 @@ class MedicationReminderService {
       'meditrack_doses', // channelId
       'Rappels de dose', // channelName
       channelDescription: 'Notification à l\'heure exacte de la prise',
+      icon: 'ic_stat_meditrack', // petite icône monochrome (barre d'état)
       ticker: 'Rappel de dose',
       category: AndroidNotificationCategory.reminder,
       fullScreenIntent: false,
@@ -89,7 +90,7 @@ class MedicationReminderService {
     if (_ready) return;
     await _plugin.initialize(
       settings: const InitializationSettings(
-        android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+        android: AndroidInitializationSettings('ic_stat_meditrack'),
       ),
       onDidReceiveNotificationResponse: (details) {
         debugPrint('[REMINDERS] notification cliquée : ${details.payload}');

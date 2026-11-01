@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../../treatments/screens/treatments_screen.dart';
 import '../models/medecin.dart';
 import '../models/user.dart';
 import '../repositories/medecin_repository.dart';
@@ -59,6 +60,14 @@ class HomeScreen extends StatelessWidget {
             OutlinedButton(
               onPressed: () => _fillTestData(context),
               child: const Text('Remplir des données de test'),
+            ),
+            const SizedBox(height: 8),
+            // MODULE 3.3 TRAITEMENTS (nouveau fichier, aucune autre modif)
+            ElevatedButton(
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (_) => TreatmentsScreen(user: user)),
+              ),
+              child: const Text('Mes traitements'),
             ),
           ],
         ),
